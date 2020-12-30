@@ -48,7 +48,10 @@ def open_mad_lib1():
     adjective2 = ml1_adjective2_var.get()
     adverb1= ml1_adverb1_var.get()
     adverb2 = ml1_adverb2_var.get()
-    
+
+    # list of the variables/words
+    w = [proper_noun, common_noun1, common_noun2, verb1, verb2, adjective1, adjective2, adverb1, adverb2]
+
     # sets the values that were created to be strings
     ml1_proper_noun_var.set('')
     ml1_common_noun1_var.set('')
@@ -99,32 +102,68 @@ def open_mad_lib1():
     adverb1_ent.place(x=375, y=460)
     adverb2_ent = tk.Entry(mad_lib1_window, textvariable= ml1_adverb2_var, font= 'Courier 14 normal')
     adverb2_ent.place(x=375, y=500)
-    
-    def open_mad_lib1_final():
+
+    # submit button to open mad_lib1_final (conditional)
+    submit_btn = tk.Button(mad_lib1_window, text= 'Submit', font= 'Courier 14 bold', relief= tk.RAISED, bg= 'green')
+    submit_btn.place(x=300, y=550)
+
+    def default_case():
+        return tk.Label(mad_lib1_window, text= 'Forget Something?', font= 'Courier 16 bold').place(x=275, y=600)
+
+    def check_for_words(w):
+        
+        # creates cases for the strings taken from the user
+        user_cases = {
+            0 : proper_noun,
+            1 : common_noun1,
+            2 : common_noun2,
+            3 : verb1,
+            4 : verb2,
+            5 : adjective1,
+            6 : adjective2,
+            7 : adverb1,
+            8 : adverb2
+        }
+        
+        # iterates through the list
+        for words in w:
+            user_cases.get(words, default_case())
+            if words is not default_case:
+                submit_btn.config(command= open_mad_lib1_final)
+            if words is default_case:
+                break
+
+    check_for_words(w)
+
+    def msg_mad_lib1(mad_lib1_window, proper_noun, common_noun1, common_noun2, verb1, verb2, adjective1, adjective2, adverb1, adverb2):
+        
+        msg1 = f'Once upon a time, there was a kid named {proper_noun}.\n'
+        msg2 = f'{proper_noun} had a/an {adjective1} {common_noun1} that they used to {adverb1} {verb1} the {adjective2}{common_noun2}.\n'
+        msg3 = f'It was a real challenge, but {proper_noun} managed to {adverb2} {verb2}.\n'
+
+        return (msg1 + msg2 + msg3)
+
+    final_msg_txt = msg_mad_lib1(mad_lib1_window, proper_noun, common_noun1, common_noun2, verb1, verb2, adjective1, adjective2, adverb1, adverb2)
+
+    def open_mad_lib1_final(final_msg_txt):
         
         # creates final mad_lib1_window for mad_lib1
         mad_lib1_window_FINAL = tk.Toplevel(mad_lib1_window)
         # sets size of mad_lib1_window
-        mad_lib1_window_FINAL.geometry('300x300')
+        mad_lib1_window_FINAL.geometry('500x300')
         # sets title of mad_lib1_window
         mad_lib1_window_FINAL.title('Story Time ENDING')
+        # shows final message
+        final_msg = tk.Text(mad_lib1_window_FINAL, font= 'Courier 14 normal').insert(final_msg_txt)
         # quit button
-        quit_button = tk.Button(mad_lib1_window_FINAL, text= 'QUIT', font= 'Courier 20 bold',relief= tk.RAISED, command= mad_lib1_window.quit, bg= 'red')
-
-    # submit button to open mad_lib1_window
-    submit_btn = tk.Button(mad_lib1_window, text= 'Submit', font= 'Courier 14 bold', relief= tk.RAISED, command= open_mad_lib1_final, bg= 'green')
-    submit_btn.place(x=300, y=550)
-
+        quit_button = tk.Button(mad_lib1_window_FINAL, text= 'QUIT', font= 'Courier 20 bold', relief= tk.RAISED, command= mad_lib1_window.quit, bg= 'red')
     
+
 # mad-lib1 'Story Time'
 mad_lib1_btn = tk.Button(master, text= 'Story Time', font= 'Courier 14 bold', relief= tk.RAISED, command= open_mad_lib1, bg= 'dark violet')
 mad_lib1_btn.place(x=60, y=120)
 
-# def msg_mad_lib1(mad_lib1_window, pn, cn1, cn2, v1, v2, adj1, adj2, adv1, adv2):
 
-   # msg1 = f'Once upon a time, there was a kid named {pn}.\n'
-   # msg2 = f'{pn} had a/an {adj1} {cn1} that they used to {adv1} {v1} the {cn2}.\n'
-   # msg3 = f'It was a real challenge, but {pn} managed to {adv2} {v2}.\n'
 
 
 master.mainloop()

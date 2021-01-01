@@ -109,6 +109,26 @@ def open_mad_lib1():
 
     def default_case():
         return tk.Label(mad_lib1_window, text= 'Forget Something?', font= 'Courier 16 bold').place(x=275, y=600)
+        
+    msg1 = f'Once upon a time, there was a kid named {proper_noun}.\n'
+    msg2 = f'{proper_noun} had a/an {adjective1} {common_noun1} that they used to {adverb1} {verb1} the {adjective2}{common_noun2}.\n'
+    msg3 = f'It was a real challenge, but {proper_noun} managed to {adverb2} {verb2}.\n'
+
+    final_msg_txt = msg1 + msg2 + msg3
+
+    def open_mad_lib1_final():
+        
+        # creates final mad_lib1_window for mad_lib1
+        mad_lib1_window_FINAL = tk.Toplevel(mad_lib1_window)
+        # sets size of mad_lib1_window
+        mad_lib1_window_FINAL.geometry('500x300')
+        # sets title of mad_lib1_window
+        mad_lib1_window_FINAL.title('Story Time ENDING')
+        # quit button
+        quit_button = tk.Button(mad_lib1_window_FINAL, text= 'QUIT', font= 'Courier 20 bold', relief= tk.RAISED, command= mad_lib1_window_FINAL.quit, bg= 'red')
+        # last message output  
+        final_msg = tk.Label(mad_lib1_window_FINAL, textvariable= final_msg_txt, font= 'Courier 14 normal')
+        final_msg.place(x=10, y=10)
 
     def check_for_words(w):
         
@@ -127,36 +147,14 @@ def open_mad_lib1():
         
         # iterates through the list
         for words in w:
-            user_cases.get(words, default_case())
-            if words is not default_case:
+            user_cases.get(words, None)
+            if words is not None:
                 submit_btn.config(command= open_mad_lib1_final)
-            if words is default_case:
+            if words is None:
+                default_case()
                 break
 
     check_for_words(w)
-
-    def msg_mad_lib1(mad_lib1_window, proper_noun, common_noun1, common_noun2, verb1, verb2, adjective1, adjective2, adverb1, adverb2):
-        
-        msg1 = f'Once upon a time, there was a kid named {proper_noun}.\n'
-        msg2 = f'{proper_noun} had a/an {adjective1} {common_noun1} that they used to {adverb1} {verb1} the {adjective2}{common_noun2}.\n'
-        msg3 = f'It was a real challenge, but {proper_noun} managed to {adverb2} {verb2}.\n'
-
-        return (msg1 + msg2 + msg3)
-
-    final_msg_txt = msg_mad_lib1(mad_lib1_window, proper_noun, common_noun1, common_noun2, verb1, verb2, adjective1, adjective2, adverb1, adverb2)
-
-    def open_mad_lib1_final(final_msg_txt):
-        
-        # creates final mad_lib1_window for mad_lib1
-        mad_lib1_window_FINAL = tk.Toplevel(mad_lib1_window)
-        # sets size of mad_lib1_window
-        mad_lib1_window_FINAL.geometry('500x300')
-        # sets title of mad_lib1_window
-        mad_lib1_window_FINAL.title('Story Time ENDING')
-        # shows final message
-        final_msg = tk.Text(mad_lib1_window_FINAL, font= 'Courier 14 normal').insert(final_msg_txt)
-        # quit button
-        quit_button = tk.Button(mad_lib1_window_FINAL, text= 'QUIT', font= 'Courier 20 bold', relief= tk.RAISED, command= mad_lib1_window.quit, bg= 'red')
     
 
 # mad-lib1 'Story Time'
